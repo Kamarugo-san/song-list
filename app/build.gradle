@@ -1,0 +1,58 @@
+plugins {
+    id 'com.android.application'
+    id 'androidx.navigation.safeargs'
+}
+
+def vCode = 1
+def vName = "1.0.0"
+def debugSuffix = "-debug"
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "br.com.kamarugosan.songlist"
+        minSdkVersion 26
+        targetSdkVersion 30
+        versionCode vCode
+        versionName vName
+
+        resValue "string", "version_name", vName
+    }
+
+    buildTypes {
+        debug {
+            versionNameSuffix debugSuffix
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+        novosom {
+            dimension "default"
+
+            versionNameSuffix "-novosom"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation "androidx.fragment:fragment:1.3.2"
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+}

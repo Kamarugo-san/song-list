@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/song_title"
+            style="@style/TextAppearance.Regular.Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Lágrimas" />
+
+        <TextView
+            android:id="@+id/song_artist"
+            style="@style/TextAppearance.Regular.SubTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/song_title"
+            tools:text="Oficina G3" />
+
+        <TextView
+            android:id="@+id/song_lyrics"
+            style="@style/TextAppearance.Regular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/song_artist"
+            tools:text="Lembra da inocência, que aflorava, a alma pura\nIndo livre como se deve, sem dever e nem correr\n\nMas um dia a vida açoitou\nBateu forte e suas marcas deixou\nSem piedade ou dó, o coração se fechou" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

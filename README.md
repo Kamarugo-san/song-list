@@ -1,0 +1,40 @@
+# Virtual Song List
+This project aims to create an expansive song list so the user can store read their lyrics at any given time.
+
+## Requirements
+- The project has to be written in Java
+- The app must:
+  * [x]  Support a default song set
+  * [x]  Show the songs in a list
+  * [x]  Allow the user to add songs manually
+  * [x]  Allow the user to add songs via zip files
+  * [x]  Allow the user to touch an item of the list to open it
+  * [x]  Allow the user to select multiple items to export as a zip file that can be imported
+  * [ ]  Allow the user to select multiple items to delete
+  * [ ]  Allow the user to filter through the list
+
+## Implementation
+[Jetpack Navigation Component](https://developer.android.com/guide/navigation) is being used alongside ViewModel and LiveData.
+
+## Team
+[Matheus Camargo Gomes da Silva](https://github.com/Kamarugo-san)
+
+## Note
+This project is a college assignment and has Brazilian Portuguese as its default UI language.
+
+#### License
+```
+Copyright 2021 Matheus Camargo Gomes da Silva
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```

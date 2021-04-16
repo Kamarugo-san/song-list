@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Pasta de Músicas</string>
+
+    <string name="all_song_sharing_text">Músicas do Pasta de Músicas</string>
+    <string name="all_song">Música</string>
+    <string name="all_ok">OK</string>
+    <string name="all_save">Salvar</string>
+    <string name="all_cancel">Cancelar</string>
+
+    <!--  Song List -->
+    <string name="list_go_to_song">Ver música</string>
+    <string name="list_selection_action_mode_delete">Excluir</string>
+    <string name="list_selection_action_mode_cannot_select_default_song">Não é permitido selecionar uma música padrão do aplicativo.</string>
+    <string name="list_selection_action_mode_share">Compartilhar</string>
+    <string name="list_selection_action_mode_share_preparing">Preparando…</string>
+    <string name="list_selection_action_mode_share_failure">Falha ao compartilhar músicas.</string>
+    <string name="list_selection_action_mode_select_all">Selecionar todas</string>
+    <plurals name="list_selection_action_mode_title">
+        <item quantity="one">%1$d selecionada</item>
+        <item quantity="other">%1$d selecionadas</item>
+    </plurals>
+
+    <!--  Song  -->
+    <string name="song_missing_title">Preencha o título</string>
+    <string name="song_missing_artist">Preencha o(a) artista</string>
+    <string name="song_missing_lyrics">Preencha a letra</string>
+
+    <!--  Imported songs  -->
+    <string name="import_no_data_received">Nenhum arquivo selecionado</string>
+    <string name="import_importing">Importando músicas…</string>
+    <string name="import_success_message">Músicas importadas com sucesso</string>
+    <string name="import_failed_message">Falha ao importar as músicas</string>
+
+    <!--  Add song  -->
+    <string name="add_song">Adicionar música</string>
+    <string name="add_song_title">Título</string>
+    <string name="add_song_artist">Artista</string>
+    <string name="add_song_lyrics">Letra</string>
+    <string name="add_song_save_confirmation">Tem certeza que deseja salvar?</string>
+    <string name="add_song_saving">Salvando…</string>
+    <string name="add_song_failed_to_save">Falha ao salvar</string>
+
+</resources>
