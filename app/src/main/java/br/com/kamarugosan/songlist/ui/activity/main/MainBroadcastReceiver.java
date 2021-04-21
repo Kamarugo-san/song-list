@@ -11,7 +11,7 @@ public class MainBroadcastReceiver extends BroadcastReceiver {
     /**
      * Action defining the song list should be loaded.
      */
-    public static String ACTION_LOAD_LIST = "br.com.kamarugo.songlist.main.LOAD_LIST";
+    private static final String ACTION_LOAD_LIST = "br.com.kamarugo.songlist.main.LOAD_LIST";
 
     private final MainActivity activity;
 
@@ -22,6 +22,11 @@ public class MainBroadcastReceiver extends BroadcastReceiver {
     @NonNull
     public static IntentFilter getIntentFilter() {
         return new IntentFilter(ACTION_LOAD_LIST);
+    }
+
+    @NonNull
+    public static Intent getLoadListIntent() {
+        return new Intent(MainBroadcastReceiver.ACTION_LOAD_LIST);
     }
 
     @Override

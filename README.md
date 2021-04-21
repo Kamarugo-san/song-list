@@ -1,5 +1,5 @@
 # Virtual Song List
-This project aims to create an expansive song list so the user can store read their lyrics at any given time.
+This project aims to create an expansive song list so the user can store and read their lyrics at any given time.
 
 ## Requirements
 - The project has to be written in Java
@@ -10,7 +10,7 @@ This project aims to create an expansive song list so the user can store read th
   * [x]  Allow the user to add songs via zip files
   * [x]  Allow the user to touch an item of the list to open it
   * [x]  Allow the user to select multiple items to export as a zip file that can be imported
-  * [ ]  Allow the user to select multiple items to delete
+  * [x]  Allow the user to select multiple items to delete
   * [ ]  Allow the user to filter through the list
 
 ## Implementation

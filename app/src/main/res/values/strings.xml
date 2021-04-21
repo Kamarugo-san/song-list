@@ -19,6 +19,18 @@
         <item quantity="one">%1$d selecionada</item>
         <item quantity="other">%1$d selecionadas</item>
     </plurals>
+    <plurals name="list_selection_action_mode_delete_in_progress">
+        <item quantity="one">Excluindo %1$d música…</item>
+        <item quantity="other">Excluindo %1$d músicas…</item>
+    </plurals>
+    <plurals name="list_selection_action_mode_delete_failed">
+        <item quantity="one">Falha ao excluir %1$d música</item>
+        <item quantity="other">Falha ao excluir %1$d músicas</item>
+    </plurals>
+    <plurals name="list_selection_action_mode_delete_confirmation">
+        <item quantity="one">Tem certeza que deseja excluir %1$d música?</item>
+        <item quantity="other">Tem certeza que deseja excluir %1$d músicas?</item>
+    </plurals>
 
     <!--  Song  -->
     <string name="song_missing_title">Preencha o título</string>

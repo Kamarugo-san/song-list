@@ -115,7 +115,7 @@ public class SongBackup {
      */
     @Nullable
     private static Song readSongFile(InputStream fileInputStream, Gson gson) {
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream))) {
             StringBuilder fileText = new StringBuilder();
 
             String line;
@@ -170,6 +170,30 @@ public class SongBackup {
         }
 
         return false;
+    }
+
+    /**
+     * Deletes the given songs from the storage. All songs must be imported. There is no support
+     * for deleting songs from the default song set.
+     *
+     * @param songsToDelete the list of songs to delete
+     * @return a {@link DeletionAttempt} with the deletion results
+     */
+    @NonNull
+    public static DeletionAttempt deleteBash(@NonNull List<Song> songsToDelete) {
+        DeletionAttempt deletionAttempt = new DeletionAttempt(songsToDelete.size());
+
+        for (Song songToDelete : songsToDelete) {
+            File fileToDelete = new File(songToDelete.getFilePath());
+
+            if (fileToDelete.delete()) {
+                deletionAttempt.addSuccessfulDeletion();
+            } else {
+                deletionAttempt.addFailedDeletion();
+            }
+        }
+
+        return deletionAttempt;
     }
 
     /**

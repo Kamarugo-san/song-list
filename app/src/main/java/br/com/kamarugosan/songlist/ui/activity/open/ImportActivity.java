@@ -1,6 +1,5 @@
 package br.com.kamarugosan.songlist.ui.activity.open;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -40,7 +39,7 @@ public class ImportActivity extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 Toast.makeText(this, success ? R.string.import_success_message : R.string.import_failed_message, Toast.LENGTH_LONG).show();
-                sendBroadcast(new Intent(MainBroadcastReceiver.ACTION_LOAD_LIST));
+                sendBroadcast(MainBroadcastReceiver.getLoadListIntent());
                 finish();
             });
         }).start();

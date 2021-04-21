@@ -1,7 +1,6 @@
 package br.com.kamarugosan.songlist.ui.activity.main.add;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,8 +21,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import br.com.kamarugosan.songlist.R;
 import br.com.kamarugosan.songlist.model.Song;
-import br.com.kamarugosan.songlist.storage.SongBackup;
 import br.com.kamarugosan.songlist.model.SongViewModel;
+import br.com.kamarugosan.songlist.storage.SongBackup;
 import br.com.kamarugosan.songlist.ui.activity.main.MainBroadcastReceiver;
 
 public class AddSongFragment extends Fragment {
@@ -124,7 +123,7 @@ public class AddSongFragment extends Fragment {
                         imm.hideSoftInputFromWindow(requireView().getWindowToken(), 0);
                     }
 
-                    requireContext().sendBroadcast(new Intent(MainBroadcastReceiver.ACTION_LOAD_LIST));
+                    requireContext().sendBroadcast(MainBroadcastReceiver.getLoadListIntent());
                     viewModel.selectSong(song);
                     NavHostFragment.findNavController(AddSongFragment.this)
                             .navigate(AddSongFragmentDirections.actionAddSongFragmentToSongFragment());

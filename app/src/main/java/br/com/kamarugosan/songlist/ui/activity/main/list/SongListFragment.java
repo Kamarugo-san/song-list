@@ -29,7 +29,10 @@ import java.util.List;
 import br.com.kamarugosan.songlist.R;
 import br.com.kamarugosan.songlist.model.Song;
 import br.com.kamarugosan.songlist.model.SongViewModel;
+import br.com.kamarugosan.songlist.storage.DeletionAttempt;
+import br.com.kamarugosan.songlist.storage.SongBackup;
 import br.com.kamarugosan.songlist.storage.SongSharing;
+import br.com.kamarugosan.songlist.ui.activity.main.MainBroadcastReceiver;
 
 public class SongListFragment extends Fragment {
     private ActionMode selectionActionMode;
@@ -49,6 +52,10 @@ public class SongListFragment extends Fragment {
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             if (item.getItemId() == R.id.select_song_share) {
                 return shareSelectedSongs();
+            }
+
+            if (item.getItemId() == R.id.select_song_delete) {
+                return deleteSelectedSongsConfirmation();
             }
 
             if (item.getItemId() == R.id.select_song_select_all) {
@@ -78,7 +85,7 @@ public class SongListFragment extends Fragment {
     private SongAdapter adapter;
     private RecyclerView songRecyclerView;
 
-    private ActivityResultLauncher<Intent> shareSongsLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+    private final ActivityResultLauncher<Intent> shareSongsLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
     });
 
     public SongListFragment() {
@@ -160,8 +167,8 @@ public class SongListFragment extends Fragment {
     }
 
     private void updateActionModeTitle() {
-        int size = adapter.getSelectedItemsPositions().size();
-        selectionActionMode.setTitle(getResources().getQuantityString(R.plurals.list_selection_action_mode_title, size, size));
+        int selectedItemsAmount = adapter.getSelectedItemsPositions().size();
+        selectionActionMode.setTitle(getResources().getQuantityString(R.plurals.list_selection_action_mode_title, selectedItemsAmount, selectedItemsAmount));
     }
 
     private boolean selectAllSongs() {
@@ -217,5 +224,60 @@ public class SongListFragment extends Fragment {
         }).start();
 
         return true;
+    }
+
+    private boolean deleteSelectedSongsConfirmation() {
+        int selectedItemsAmount = adapter.getSelectedItems().size();
+
+        new AlertDialog.Builder(requireContext())
+                .setMessage(getResources().getQuantityString(R.plurals.list_selection_action_mode_delete_confirmation, selectedItemsAmount, selectedItemsAmount))
+                .setPositiveButton(R.string.list_selection_action_mode_delete, (dialog, which) -> deleteSelectedSongs())
+                .setNegativeButton(R.string.all_cancel, null)
+                .create()
+                .show();
+
+        return true;
+    }
+
+    private void deleteSelectedSongs() {
+        List<Song> songsToDelete = adapter.getSelectedItems();
+
+        AlertDialog deletingSongsDialog = new AlertDialog.Builder(requireContext())
+                .setMessage(getDeletingSongsDialogMessage(songsToDelete.size()))
+                .setCancelable(false)
+                .create();
+
+        deletingSongsDialog.show();
+
+        new Thread(() -> {
+            DeletionAttempt deletionAttempt = SongBackup.deleteBash(songsToDelete);
+
+            requireActivity().runOnUiThread(() -> {
+                deletingSongsDialog.dismiss();
+
+                if (!deletionAttempt.isSuccessful()) {
+                    String deletionFailedMessage = getResources().getQuantityString(
+                            R.plurals.list_selection_action_mode_delete_failed,
+                            deletionAttempt.getFailedDeletions(),
+                            deletionAttempt.getFailedDeletions()
+                    );
+
+                    new AlertDialog.Builder(requireContext())
+                            .setMessage(deletionFailedMessage)
+                            .setPositiveButton(R.string.all_ok, null)
+                            .create()
+                            .show();
+                }
+
+                requireContext().sendBroadcast(MainBroadcastReceiver.getLoadListIntent());
+
+                selectionActionMode.finish();
+            });
+        }).start();
+    }
+
+    @NonNull
+    private String getDeletingSongsDialogMessage(int songsToDeleteAmount) {
+        return getResources().getQuantityString(R.plurals.list_selection_action_mode_delete_in_progress, songsToDeleteAmount, songsToDeleteAmount);
     }
 }
