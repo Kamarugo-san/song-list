@@ -1,5 +1,10 @@
 package br.com.kamarugosan.songlist.model;
 
+import androidx.annotation.NonNull;
+
+import java.text.Normalizer;
+import java.util.Locale;
+
 public class Song {
     private final String title;
     private final String artist;
@@ -39,5 +44,19 @@ public class Song {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public boolean contains(@NonNull String text) {
+        String lowercaseText = text.toLowerCase(Locale.getDefault());
+
+        return lowerCaseAndNormalizeString(title).contains(lowercaseText)
+                || lowerCaseAndNormalizeString(artist).contains(lowercaseText)
+                || lowerCaseAndNormalizeString(lyrics).contains(lowercaseText);
+    }
+
+    @NonNull
+    private String lowerCaseAndNormalizeString(String targetString) {
+        targetString = targetString.toLowerCase(Locale.getDefault());
+        return Normalizer.normalize(targetString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }
 }

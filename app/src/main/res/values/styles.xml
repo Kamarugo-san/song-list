@@ -2,8 +2,11 @@
 <resources>
     <style name="Theme.SongList.Toolbar" parent="Widget.AppCompat.ActionBar">
         <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
-        <item name="android:background">?attr/colorPrimary</item>
         <item name="iconTint">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="Theme.SongList.SearchView" parent="Widget.AppCompat.SearchView">
+        <item name="queryBackground">?attr/backgroundColor</item>
     </style>
 
     <style name="TextAppearance" />

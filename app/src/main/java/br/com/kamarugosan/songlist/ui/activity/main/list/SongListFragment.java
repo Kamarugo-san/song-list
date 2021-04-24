@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -14,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -35,11 +38,13 @@ import br.com.kamarugosan.songlist.storage.SongSharing;
 import br.com.kamarugosan.songlist.ui.activity.main.MainBroadcastReceiver;
 
 public class SongListFragment extends Fragment {
+    private FloatingActionButton addSongFab;
     private ActionMode selectionActionMode;
     private final ActionMode.Callback selectionActionModeCallback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.getMenuInflater().inflate(R.menu.menu_song_list_selection, menu);
+            addSongFab.setVisibility(View.GONE);
             return true;
         }
 
@@ -67,6 +72,7 @@ public class SongListFragment extends Fragment {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
+            addSongFab.setVisibility(View.VISIBLE);
             selectionActionMode = null;
 
             if (!adapter.getSelectedItemsPositions().isEmpty()) {
@@ -93,6 +99,14 @@ public class SongListFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_song_list, menu);
+        setupSearchView(menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -101,11 +115,13 @@ public class SongListFragment extends Fragment {
         viewModel = new ViewModelProvider(requireActivity()).get(SongViewModel.class);
         songRecyclerView = view.findViewById(R.id.song_list_recyclerview);
 
-        FloatingActionButton addSongFab = view.findViewById(R.id.song_list_add_song_fab);
+        addSongFab = view.findViewById(R.id.song_list_add_song_fab);
         addSongFab.setOnClickListener(v -> NavHostFragment.findNavController(SongListFragment.this)
                 .navigate(SongListFragmentDirections.actionSongListFragmentToAddSongFragment()));
 
         setupList();
+
+        viewModel.getSongFilter().observe(getViewLifecycleOwner(), s -> adapter.filter(s));
     }
 
     private void setupList() {
@@ -124,18 +140,21 @@ public class SongListFragment extends Fragment {
 
         songRecyclerView.setAdapter(adapter);
 
-        viewModel.getSongList().observe(getViewLifecycleOwner(), songs -> adapter.setList(songs));
+        viewModel.getSongList().observe(getViewLifecycleOwner(), songs -> {
+            adapter.setDataSet(songs);
+
+            String filterValue = viewModel.getSongFilter().getValue();
+            if (filterValue != null && !filterValue.isEmpty()) {
+                adapter.filter(filterValue);
+            }
+        });
     }
 
     private void processPosition(int position) {
-        Song song = adapter.getList().get(position);
+        Song song = adapter.getFilteredDataSet().get(position);
         if (selectionActionMode != null) {
             if (!song.isImported()) {
-                new AlertDialog.Builder(requireContext())
-                        .setMessage(R.string.list_selection_action_mode_cannot_select_default_song)
-                        .setPositiveButton(R.string.all_ok, null)
-                        .create()
-                        .show();
+                Toast.makeText(requireContext(), R.string.list_selection_action_mode_cannot_select_default_song, Toast.LENGTH_SHORT).show();
 
                 updateActionModeVisibility();
                 return;
@@ -174,8 +193,8 @@ public class SongListFragment extends Fragment {
     private boolean selectAllSongs() {
         adapter.getSelectedItemsPositions().clear();
 
-        for (int i = 0; i < adapter.getList().size(); i++) {
-            if (adapter.getList().get(i).isImported()) {
+        for (int i = 0; i < adapter.getFilteredDataSet().size(); i++) {
+            if (adapter.getFilteredDataSet().get(i).isImported()) {
                 adapter.getSelectedItemsPositions().add(i);
                 adapter.notifyItemChanged(i);
             }
@@ -243,7 +262,7 @@ public class SongListFragment extends Fragment {
         List<Song> songsToDelete = adapter.getSelectedItems();
 
         AlertDialog deletingSongsDialog = new AlertDialog.Builder(requireContext())
-                .setMessage(getDeletingSongsDialogMessage(songsToDelete.size()))
+                .setMessage(getResources().getQuantityString(R.plurals.list_selection_action_mode_delete_in_progress, songsToDelete.size(), songsToDelete.size()))
                 .setCancelable(false)
                 .create();
 
@@ -276,8 +295,28 @@ public class SongListFragment extends Fragment {
         }).start();
     }
 
-    @NonNull
-    private String getDeletingSongsDialogMessage(int songsToDeleteAmount) {
-        return getResources().getQuantityString(R.plurals.list_selection_action_mode_delete_in_progress, songsToDeleteAmount, songsToDeleteAmount);
+    private void setupSearchView(@NonNull Menu menu) {
+        MenuItem searchMenuItem = menu.findItem(R.id.song_search);
+        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        searchView.setQueryHint(getString(R.string.list_search_query_hint));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                viewModel.filterSong(newText);
+                return true;
+            }
+        });
+
+        String filterValue = viewModel.getSongFilter().getValue();
+        if (filterValue != null && !filterValue.isEmpty()) {
+            searchView.setQuery(filterValue, false);
+            searchView.setIconified(false);
+        }
     }
 }

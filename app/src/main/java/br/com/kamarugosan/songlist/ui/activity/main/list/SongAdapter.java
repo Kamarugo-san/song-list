@@ -15,15 +15,17 @@ import br.com.kamarugosan.songlist.R;
 import br.com.kamarugosan.songlist.model.Song;
 
 public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
-    private List<Song> list;
+    private List<Song> fullDataSet;
+    private List<Song> filteredDataSet;
     private final Context context;
     private final List<Integer> selectedItemsPositions = new ArrayList<>();
     private final ListItemClickListener clickListener;
     private final ListItemLongClickListener longClickListener;
 
-    public SongAdapter(Context context, List<Song> list, ListItemClickListener clickListener, ListItemLongClickListener longClickListener) {
+    public SongAdapter(Context context, List<Song> fullDataSet, ListItemClickListener clickListener, ListItemLongClickListener longClickListener) {
         this.context = context;
-        this.list = list;
+        this.fullDataSet = fullDataSet;
+        this.filteredDataSet = new ArrayList<>(fullDataSet);
         this.clickListener = clickListener;
         this.longClickListener = longClickListener;
     }
@@ -39,20 +41,37 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
-        holder.bind(list.get(position), context, selectedItemsPositions.contains(position));
+        holder.bind(filteredDataSet.get(position), context, selectedItemsPositions.contains(position));
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return filteredDataSet.size();
     }
 
-    public List<Song> getList() {
-        return this.list;
+    public List<Song> getFilteredDataSet() {
+        return this.filteredDataSet;
     }
 
-    public void setList(List<Song> list) {
-        this.list = list;
+    public void filter(String filter) {
+        if (filter == null || filter.isEmpty()) {
+            this.filteredDataSet = new ArrayList<>(fullDataSet);
+        } else {
+            this.filteredDataSet = new ArrayList<>();
+
+            for (Song song : fullDataSet) {
+                if (song.contains(filter)) {
+                    this.filteredDataSet.add(song);
+                }
+            }
+        }
+
+        notifyDataSetChanged();
+    }
+
+    public void setDataSet(List<Song> dataSet) {
+        this.fullDataSet = dataSet;
+        this.filteredDataSet = new ArrayList<>(dataSet);
         notifyDataSetChanged();
     }
 
@@ -64,7 +83,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
         List<Song> selectedItems = new ArrayList<>();
 
         for (Integer selectedItemPosition : selectedItemsPositions) {
-            selectedItems.add(list.get(selectedItemPosition));
+            selectedItems.add(filteredDataSet.get(selectedItemPosition));
         }
 
         return selectedItems;

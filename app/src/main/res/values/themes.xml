@@ -25,6 +25,8 @@
         <item name="buttonBarPositiveButtonStyle">@style/DialogButton</item>
         <item name="buttonBarNegativeButtonStyle">@style/DialogButton</item>
         <item name="buttonBarNeutralButtonStyle">@style/DialogButton</item>
+
+        <item name="searchViewStyle">@style/Theme.SongList.SearchView</item>
     </style>
 
     <style name="Theme.SongList.Splash">

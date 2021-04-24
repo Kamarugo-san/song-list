@@ -2,7 +2,7 @@
 This project aims to create an expansive song list so the user can store and read their lyrics at any given time.
 
 ## Requirements
-- The project has to be written in Java
+- The project must be written in Java
 - The app must:
   * [x]  Support a default song set
   * [x]  Show the songs in a list
@@ -11,10 +11,10 @@ This project aims to create an expansive song list so the user can store and rea
   * [x]  Allow the user to touch an item of the list to open it
   * [x]  Allow the user to select multiple items to export as a zip file that can be imported
   * [x]  Allow the user to select multiple items to delete
-  * [ ]  Allow the user to filter through the list
+  * [x]  Allow the user to filter through the list
 
 ## Implementation
-[Jetpack Navigation Component](https://developer.android.com/guide/navigation) is being used alongside ViewModel and LiveData.
+[Jetpack Navigation Component](https://developer.android.com/guide/navigation) is being used alongside [ViewModel](https://developer.android.com/reference/androidx/lifecycle/ViewModel) and [LiveData](https://developer.android.com/reference/androidx/lifecycle/LiveData).
 
 ## Team
 [Matheus Camargo Gomes da Silva](https://github.com/Kamarugo-san)
@@ -22,7 +22,7 @@ This project aims to create an expansive song list so the user can store and rea
 ## Note
 This project is a college assignment and has Brazilian Portuguese as its default UI language.
 
-#### License
+## License
 ```
 Copyright 2021 Matheus Camargo Gomes da Silva
 
