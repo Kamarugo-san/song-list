@@ -12,6 +12,7 @@ This project aims to create an expansive song list so the user can store and rea
   * [x]  Allow the user to select multiple items to export as a zip file that can be imported
   * [x]  Allow the user to select multiple items to delete
   * [x]  Allow the user to filter through the list
+  * [x]  Allow the user to edit an added or imported song
 
 ## Implementation
 [Jetpack Navigation Component](https://developer.android.com/guide/navigation) is being used alongside [ViewModel](https://developer.android.com/reference/androidx/lifecycle/ViewModel) and [LiveData](https://developer.android.com/reference/androidx/lifecycle/LiveData).

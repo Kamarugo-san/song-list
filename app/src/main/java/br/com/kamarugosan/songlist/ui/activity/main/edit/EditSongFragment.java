@@ -1,4 +1,4 @@
-package br.com.kamarugosan.songlist.ui.activity.main.add;
+package br.com.kamarugosan.songlist.ui.activity.main.edit;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -25,7 +26,7 @@ import br.com.kamarugosan.songlist.model.SongViewModel;
 import br.com.kamarugosan.songlist.storage.SongBackup;
 import br.com.kamarugosan.songlist.ui.activity.main.MainBroadcastReceiver;
 
-public class AddSongFragment extends Fragment {
+public class EditSongFragment extends Fragment {
     private TextInputLayout titleLayout;
     private TextInputLayout artistLayout;
     private TextInputLayout lyricsLayout;
@@ -35,20 +36,22 @@ public class AddSongFragment extends Fragment {
 
     private SongViewModel viewModel;
 
-    public AddSongFragment() {
+    private Song songToEdit = null;
+
+    public EditSongFragment() {
         super(R.layout.fragment_add_song);
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_add_song, menu);
+        inflater.inflate(R.menu.menu_edit_song, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.add_song_save) {
-            validateForm();
+        if (item.getItemId() == R.id.edit_song_save) {
+            validateFormAndSave();
         }
 
         return super.onOptionsItemSelected(item);
@@ -67,10 +70,19 @@ public class AddSongFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(SongViewModel.class);
 
+        songToEdit = viewModel.getSelectedSong().getValue();
+        if (songToEdit != null && songToEdit.isImported()) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.edit_song_title);
+
+            titleInput.setText(songToEdit.getTitle());
+            artistInput.setText(songToEdit.getArtist());
+            lyricsInput.setText(songToEdit.getLyrics());
+        }
+
         setHasOptionsMenu(true);
     }
 
-    private void validateForm() {
+    private void validateFormAndSave() {
         Song song = createSong();
 
         titleLayout.setError(null);
@@ -112,26 +124,37 @@ public class AddSongFragment extends Fragment {
         savingDialog.show();
 
         new Thread(() -> {
-            boolean saved = SongBackup.save(requireActivity(), song);
+            if (songToEdit != null && songToEdit.isImported()) {
+                song.setImported(true);
+                song.setFilePath(songToEdit.getFilePath());
 
-            requireActivity().runOnUiThread(() -> {
-                savingDialog.hide();
+                boolean saved = SongBackup.update(requireActivity(), song);
 
-                if (saved) {
-                    if (getView() != null) {
-                        InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(requireView().getWindowToken(), 0);
-                    }
+                requireActivity().runOnUiThread(() -> finishFragment(song, savingDialog, saved));
+            } else {
+                boolean saved = SongBackup.save(requireActivity(), song);
 
-                    requireContext().sendBroadcast(MainBroadcastReceiver.getLoadListIntent());
-                    viewModel.selectSong(song);
-                    NavHostFragment.findNavController(AddSongFragment.this)
-                            .navigate(AddSongFragmentDirections.actionAddSongFragmentToSongFragment());
-                } else {
-                    Snackbar.make(titleInput, R.string.add_song_failed_to_save, Snackbar.LENGTH_LONG).show();
-                }
-            });
+                requireActivity().runOnUiThread(() -> finishFragment(song, savingDialog, saved));
+            }
         }).start();
+    }
+
+    private void finishFragment(Song song, @NonNull AlertDialog savingDialog, boolean saved) {
+        savingDialog.hide();
+
+        if (saved) {
+            if (getView() != null) {
+                InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(requireView().getWindowToken(), 0);
+            }
+
+            requireContext().sendBroadcast(MainBroadcastReceiver.getLoadListIntent());
+            viewModel.selectSong(song);
+            NavHostFragment.findNavController(EditSongFragment.this)
+                    .navigate(EditSongFragmentDirections.actionEditSongFragmentToSongFragment());
+        } else {
+            Snackbar.make(titleInput, R.string.add_song_failed_to_save, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @NonNull

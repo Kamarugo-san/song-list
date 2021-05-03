@@ -117,10 +117,11 @@ public class SongListFragment extends Fragment {
 
         addSongFab = view.findViewById(R.id.song_list_add_song_fab);
         addSongFab.setOnClickListener(v -> NavHostFragment.findNavController(SongListFragment.this)
-                .navigate(SongListFragmentDirections.actionSongListFragmentToAddSongFragment()));
+                .navigate(SongListFragmentDirections.actionSongListFragmentToEditSongFragment()));
 
         setupList();
 
+        viewModel.selectSong(null);
         viewModel.getSongFilter().observe(getViewLifecycleOwner(), s -> adapter.filter(s));
     }
 

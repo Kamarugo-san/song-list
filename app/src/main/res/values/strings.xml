@@ -45,7 +45,7 @@
     <string name="import_success_message">Músicas importadas com sucesso</string>
     <string name="import_failed_message">Falha ao importar as músicas</string>
 
-    <!--  Add song  -->
+    <!--  Edit song  -->
     <string name="add_song">Adicionar música</string>
     <string name="add_song_title">Título</string>
     <string name="add_song_artist">Artista</string>
@@ -53,5 +53,7 @@
     <string name="add_song_save_confirmation">Tem certeza que deseja salvar?</string>
     <string name="add_song_saving">Salvando…</string>
     <string name="add_song_failed_to_save">Falha ao salvar</string>
+    <string name="edit_song">Editar</string>
+    <string name="edit_song_title">Editar música</string>
 
 </resources>

@@ -72,7 +72,7 @@ public class SongBackup {
             }
 
             // Reading imported songs
-            File importedDir = new File(activity.getFilesDir(), IMPORTED_SONGS_DIR);
+            File importedDir = getImportedDir(activity);
             if (importedDir.exists() && importedDir.isDirectory()) {
                 String[] importedFiles = importedDir.list();
                 if (importedFiles != null) {
@@ -142,7 +142,7 @@ public class SongBackup {
      * @return true if the song was successfully saved, false otherwise
      */
     public static boolean save(@NonNull Activity activity, Song song) {
-        File importedDir = new File(activity.getFilesDir(), SongBackup.IMPORTED_SONGS_DIR);
+        File importedDir = getImportedDir(activity);
 
         if (!importedDir.exists()) {
             if (!importedDir.mkdir()) {
@@ -161,6 +161,44 @@ public class SongBackup {
         }
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dest), StandardCharsets.UTF_8))) {
+            Gson gson = new Gson();
+
+            writer.write(gson.toJson(song));
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    /**
+     * Updates the given song's file with the given values.
+     *
+     * @param activity the {@link Activity} to get the files directory from
+     * @param song     the song to save. Must be imported and have a file path
+     * @return true if the song was successfully saved, false otherwise
+     */
+    public static boolean update(@NonNull Activity activity, @NonNull Song song) {
+        if (!song.isImported() || song.getFilePath() == null || song.getFilePath().isEmpty()) {
+            return false;
+        }
+
+        File importedDir = getImportedDir(activity);
+
+        if (!importedDir.exists()) {
+            if (!importedDir.mkdir()) {
+                return false;
+            }
+        }
+
+        File destination = new File(song.getFilePath());
+
+        if (!destination.exists()) {
+            return false;
+        }
+
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(destination), StandardCharsets.UTF_8))) {
             Gson gson = new Gson();
 
             writer.write(gson.toJson(song));
@@ -204,7 +242,7 @@ public class SongBackup {
      * @return true if the files were copied, false otherwise
      */
     public static boolean copyFromZip(@NonNull Activity activity, Uri data) {
-        File importedDir = new File(activity.getFilesDir(), SongBackup.IMPORTED_SONGS_DIR);
+        File importedDir = getImportedDir(activity);
 
         if (!importedDir.exists()) {
             if (!importedDir.mkdir()) {
@@ -247,5 +285,10 @@ public class SongBackup {
         }
 
         return false;
+    }
+
+    @NonNull
+    private static File getImportedDir(@NonNull Activity activity) {
+        return new File(activity.getFilesDir(), SongBackup.IMPORTED_SONGS_DIR);
     }
 }

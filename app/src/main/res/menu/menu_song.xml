@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/add_song_save"
-        android:title="@string/all_save"
+        android:id="@+id/song_edit"
+        android:title="@string/edit_song"
         app:showAsAction="always" />
+
 </menu>
