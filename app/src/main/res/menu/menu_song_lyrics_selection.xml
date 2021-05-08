@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/lyrics_mark"
+        android:title="@string/lyrics_selection_mark_text" />
+
+    <item
+        android:id="@+id/lyrics_clear_markings"
+        android:title="@string/lyrics_selection_clear_markings_text" />
+
+</menu>

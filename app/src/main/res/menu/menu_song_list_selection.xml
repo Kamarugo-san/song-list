@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/select_song_share"
-        android:title="@string/list_selection_action_mode_share"
+        android:title="@string/all_share"
         android:icon="@drawable/ic_share"
         app:showAsAction="always" />
 

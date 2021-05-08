@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/lyrics_mark_color_yellow"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/lyrics_selection_bg_yellow"
+        app:layout_constraintEnd_toStartOf="@id/lyrics_mark_color_green"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/lyrics_mark_color_green"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:background="@color/lyrics_selection_bg_green"
+        app:layout_constraintEnd_toStartOf="@id/lyrics_mark_color_pink"
+        app:layout_constraintStart_toEndOf="@id/lyrics_mark_color_yellow"
+        app:layout_constraintTop_toTopOf="@id/lyrics_mark_color_yellow" />
+
+    <View
+        android:id="@+id/lyrics_mark_color_pink"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/lyrics_selection_bg_pink"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/lyrics_mark_color_green"
+        app:layout_constraintTop_toTopOf="@id/lyrics_mark_color_green" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,4 +6,8 @@
     <color name="separator">#B5B5B5</color>
     <color name="list_item_background">#FFF</color>
     <color name="list_item_selected_background">#CFCFCF</color>
+
+    <color name="lyrics_selection_bg_yellow">#FFEB3B</color>
+    <color name="lyrics_selection_bg_green">#7EC181</color>
+    <color name="lyrics_selection_bg_pink">#D06FE1</color>
 </resources>

@@ -6,6 +6,7 @@
     <string name="all_ok">OK</string>
     <string name="all_save">Salvar</string>
     <string name="all_cancel">Cancelar</string>
+    <string name="all_share">Compartilhar</string>
 
     <!--  Song List -->
     <string name="list_go_to_song">Ver música</string>
@@ -13,7 +14,6 @@
     <string name="list_search_query_hint">Título, artista, letra…</string>
     <string name="list_selection_action_mode_delete">Excluir</string>
     <string name="list_selection_action_mode_cannot_select_default_song">Músicas padrão não podem ser selecionadas</string>
-    <string name="list_selection_action_mode_share">Compartilhar</string>
     <string name="list_selection_action_mode_share_preparing">Preparando…</string>
     <string name="list_selection_action_mode_share_failure">Falha ao compartilhar músicas.</string>
     <string name="list_selection_action_mode_select_all">Selecionar todas</string>
@@ -38,6 +38,9 @@
     <string name="song_missing_title">Preencha o título</string>
     <string name="song_missing_artist">Preencha o(a) artista</string>
     <string name="song_missing_lyrics">Preencha a letra</string>
+    <string name="lyrics_selection_mark_text">Marcar texto</string>
+    <string name="lyrics_selection_clear_markings_text">Limpar marcações</string>
+    <string name="lyrics_selection_dialog_title">Selecione uma cor</string>
 
     <!--  Imported songs  -->
     <string name="import_no_data_received">Nenhum arquivo selecionado</string>
