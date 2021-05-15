@@ -5,6 +5,11 @@
     <item
         android:id="@+id/song_edit"
         android:title="@string/edit_song"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/song_text_size"
+        android:title="@string/song_text_size"
+        app:showAsAction="never" />
 
 </menu>

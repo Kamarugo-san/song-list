@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
+import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +23,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.google.android.material.slider.Slider;
+
 import br.com.kamarugosan.songlist.R;
 import br.com.kamarugosan.songlist.model.LyricsMarking;
 import br.com.kamarugosan.songlist.model.LyricsMarkingColor;
@@ -32,6 +35,8 @@ import br.com.kamarugosan.songlist.storage.SongBackup;
 import br.com.kamarugosan.songlist.ui.activity.main.MainBroadcastReceiver;
 
 public class SongFragment extends Fragment {
+    public static final Float DEFAULT_LYRICS_TEXT_SIZE = 14f;
+
     private TextView lyricsTv;
     private TextView titleTv;
     private TextView artistTv;
@@ -79,6 +84,23 @@ public class SongFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.song_edit) {
             NavHostFragment.findNavController(this).navigate(SongFragmentDirections.actionSongFragmentToEditSongFragment());
+        }
+
+        if (item.getItemId() == R.id.song_text_size) {
+            Float previousLyricsTextSize = viewModel.getLyricsTextSize().getValue();
+
+            View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_text_size_selection, null);
+            Slider textSizeSlider = dialogView.findViewById(R.id.text_size_slider);
+            textSizeSlider.setValue(previousLyricsTextSize);
+            textSizeSlider.addOnChangeListener((slider, value, fromUser) -> viewModel.setLyricsTextSize(value));
+
+            new AlertDialog.Builder(requireContext())
+                    .setTitle(R.string.song_text_size)
+                    .setPositiveButton(R.string.all_ok, null)
+                    .setNegativeButton(R.string.all_cancel, (dialog, which) -> viewModel.setLyricsTextSize(previousLyricsTextSize))
+                    .setView(dialogView)
+                    .create()
+                    .show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -130,6 +152,8 @@ public class SongFragment extends Fragment {
                 actionBar.setTitle(currentSong.getTitle());
             }
         });
+
+        viewModel.getLyricsTextSize().observe(getViewLifecycleOwner(), lyricsTextSize -> lyricsTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, lyricsTextSize));
     }
 
     private boolean markSelectedLyrics() {

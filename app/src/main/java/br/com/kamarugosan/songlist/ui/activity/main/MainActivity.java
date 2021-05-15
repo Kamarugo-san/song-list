@@ -1,10 +1,13 @@
 package br.com.kamarugosan.songlist.ui.activity.main;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -15,8 +18,12 @@ import java.util.Objects;
 
 import br.com.kamarugosan.songlist.R;
 import br.com.kamarugosan.songlist.model.Song;
-import br.com.kamarugosan.songlist.storage.SongBackup;
 import br.com.kamarugosan.songlist.model.SongViewModel;
+import br.com.kamarugosan.songlist.storage.SongBackup;
+import br.com.kamarugosan.songlist.ui.activity.main.song.SongFragment;
+
+import static br.com.kamarugosan.songlist.ui.activity.main.song.SharedPreferencesConstants.PREF_LYRICS_TEXT_SIZE;
+import static br.com.kamarugosan.songlist.ui.activity.main.song.SharedPreferencesConstants.SHARED_PREFERENCES_MAIN_NAME;
 
 public class MainActivity extends AppCompatActivity {
     private static final String THREAD_NAME_LOAD_SONG_FILES = "loadSongFiles";
@@ -62,6 +69,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setup() {
         viewModel = new ViewModelProvider(this).get(SongViewModel.class);
+
+        SharedPreferences prefs = getSharedPreferences(SHARED_PREFERENCES_MAIN_NAME, Context.MODE_PRIVATE);
+        float prefsLyricsTextSize = prefs.getFloat(PREF_LYRICS_TEXT_SIZE, SongFragment.DEFAULT_LYRICS_TEXT_SIZE);
+        viewModel.setLyricsTextSize(prefsLyricsTextSize);
+
+        viewModel.getLyricsTextSize().observe(this, lyricsTextSize -> prefs.edit().putFloat(PREF_LYRICS_TEXT_SIZE, lyricsTextSize).apply());
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_container);
         navController = Objects.requireNonNull(navHostFragment).getNavController();

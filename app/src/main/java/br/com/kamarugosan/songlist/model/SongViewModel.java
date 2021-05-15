@@ -6,10 +6,13 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
+import br.com.kamarugosan.songlist.ui.activity.main.song.SongFragment;
+
 public class SongViewModel extends ViewModel {
     private final MutableLiveData<List<Song>> songList = new MutableLiveData<>();
     private final MutableLiveData<Song> selectedSong = new MutableLiveData<>();
     private final MutableLiveData<String> songFilter = new MutableLiveData<>(null);
+    private final MutableLiveData<Float> lyricsTextSize = new MutableLiveData<>(SongFragment.DEFAULT_LYRICS_TEXT_SIZE);
 
     public void postSongList(List<Song> value) {
         songList.postValue(value);
@@ -33,5 +36,13 @@ public class SongViewModel extends ViewModel {
 
     public LiveData<String> getSongFilter() {
         return songFilter;
+    }
+
+    public void setLyricsTextSize(float value) {
+        lyricsTextSize.setValue(value);
+    }
+
+    public LiveData<Float> getLyricsTextSize() {
+        return lyricsTextSize;
     }
 }

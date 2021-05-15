@@ -21,11 +21,6 @@
         <item name="backgroundColor">@android:color/background_light</item>
         <item name="colorOnBackground">@color/colorOnBackground</item>
 
-        <!--  Dialog  -->
-        <item name="buttonBarPositiveButtonStyle">@style/DialogButton</item>
-        <item name="buttonBarNegativeButtonStyle">@style/DialogButton</item>
-        <item name="buttonBarNeutralButtonStyle">@style/DialogButton</item>
-
         <item name="searchViewStyle">@style/Theme.SongList.SearchView</item>
     </style>
 

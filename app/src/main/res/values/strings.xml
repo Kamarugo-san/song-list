@@ -41,6 +41,7 @@
     <string name="lyrics_selection_mark_text">Marcar texto</string>
     <string name="lyrics_selection_clear_markings_text">Limpar marcações</string>
     <string name="lyrics_selection_dialog_title">Selecione uma cor</string>
+    <string name="song_text_size">Tamanho da fonte</string>
 
     <!--  Imported songs  -->
     <string name="import_no_data_received">Nenhum arquivo selecionado</string>
