@@ -13,7 +13,6 @@
     <string name="list_search">Buscar</string>
     <string name="list_search_query_hint">Título, artista, letra…</string>
     <string name="list_selection_action_mode_delete">Excluir</string>
-    <string name="list_selection_action_mode_cannot_select_default_song">Músicas padrão não podem ser selecionadas</string>
     <string name="list_selection_action_mode_share_preparing">Preparando…</string>
     <string name="list_selection_action_mode_share_failure">Falha ao compartilhar músicas.</string>
     <string name="list_selection_action_mode_select_all">Selecionar todas</string>

@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -154,13 +153,6 @@ public class SongListFragment extends Fragment {
     private void processPosition(int position) {
         Song song = adapter.getFilteredDataSet().get(position);
         if (selectionActionMode != null) {
-            if (!song.isImported()) {
-                Toast.makeText(requireContext(), R.string.list_selection_action_mode_cannot_select_default_song, Toast.LENGTH_SHORT).show();
-
-                updateActionModeVisibility();
-                return;
-            }
-
             if (adapter.getSelectedItemsPositions().contains(position)) {
                 adapter.getSelectedItemsPositions().remove((Integer) position);
             } else {
@@ -195,11 +187,10 @@ public class SongListFragment extends Fragment {
         adapter.getSelectedItemsPositions().clear();
 
         for (int i = 0; i < adapter.getFilteredDataSet().size(); i++) {
-            if (adapter.getFilteredDataSet().get(i).isImported()) {
-                adapter.getSelectedItemsPositions().add(i);
-                adapter.notifyItemChanged(i);
-            }
+            adapter.getSelectedItemsPositions().add(i);
         }
+
+        adapter.notifyDataSetChanged();
 
         updateActionModeTitle();
 

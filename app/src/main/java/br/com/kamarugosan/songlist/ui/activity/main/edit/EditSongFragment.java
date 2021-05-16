@@ -71,7 +71,7 @@ public class EditSongFragment extends Fragment {
         viewModel = new ViewModelProvider(requireActivity()).get(SongViewModel.class);
 
         songToEdit = viewModel.getSelectedSong().getValue();
-        if (songToEdit != null && songToEdit.isImported()) {
+        if (songToEdit != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.edit_song_title);
 
             titleInput.setText(songToEdit.getTitle());
@@ -124,8 +124,7 @@ public class EditSongFragment extends Fragment {
         savingDialog.show();
 
         new Thread(() -> {
-            if (songToEdit != null && songToEdit.isImported()) {
-                song.setImported(true);
+            if (songToEdit != null) {
                 song.setFilePath(songToEdit.getFilePath());
 
                 boolean saved = SongBackup.update(requireActivity(), song);

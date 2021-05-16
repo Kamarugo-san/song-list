@@ -1,7 +1,6 @@
 package br.com.kamarugosan.songlist.storage;
 
 import android.app.Activity;
-import android.content.res.AssetManager;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
@@ -31,11 +30,6 @@ import br.com.kamarugosan.songlist.model.Song;
 
 public class SongBackup {
     /**
-     * The folder the songs are stored on the assets.
-     */
-    public static final String SONGS_FOLDER = "songs";
-
-    /**
      * The directory for the imported songs.
      */
     public static final String IMPORTED_SONGS_DIR = "imported";
@@ -46,8 +40,7 @@ public class SongBackup {
     public static final String CUSTOM_FILE_EXTENSION = "ksheet";
 
     /**
-     * Loads all songs from the default asset directory and the imported songs directory and sorts
-     * them alphabetically.
+     * Loads all songs from the imported songs directory and sorts them alphabetically.
      *
      * @param activity the {@link Activity} to get the assets and files directory from
      * @return all the loaded songs. Ignores the ones that could not be parsed
@@ -58,20 +51,6 @@ public class SongBackup {
         final Gson gson = new Gson();
 
         try {
-            // Reading default songs
-            AssetManager assets = activity.getAssets();
-            String[] assetsList = assets.list(SONGS_FOLDER);
-
-            for (String file : assetsList) {
-                InputStream fileInputStream = assets.open(SONGS_FOLDER + "/" + file);
-
-                Song song = readSongFile(fileInputStream, gson);
-                if (song != null) {
-                    list.add(song);
-                }
-            }
-
-            // Reading imported songs
             File importedDir = getImportedDir(activity);
             if (importedDir.exists() && importedDir.isDirectory()) {
                 String[] importedFiles = importedDir.list();
@@ -83,7 +62,6 @@ public class SongBackup {
                         Song song = readSongFile(fileInputStream, gson);
 
                         if (song != null) {
-                            song.setImported(true);
                             song.setFilePath(file.getAbsolutePath());
                             list.add(song);
                         }
@@ -114,7 +92,7 @@ public class SongBackup {
      * @return the parsed song. Null if the song could not be parsed
      */
     @Nullable
-    private static Song readSongFile(InputStream fileInputStream, Gson gson) {
+    public static Song readSongFile(InputStream fileInputStream, Gson gson) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream))) {
             StringBuilder fileText = new StringBuilder();
 
@@ -180,7 +158,7 @@ public class SongBackup {
      * @return true if the song was successfully saved, false otherwise
      */
     public static boolean update(@NonNull Activity activity, @NonNull Song song) {
-        if (!song.isImported() || song.getFilePath() == null || song.getFilePath().isEmpty()) {
+        if (song.getFilePath() == null || song.getFilePath().isEmpty()) {
             return false;
         }
 

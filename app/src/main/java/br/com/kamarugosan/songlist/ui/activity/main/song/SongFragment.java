@@ -87,7 +87,8 @@ public class SongFragment extends Fragment {
         }
 
         if (item.getItemId() == R.id.song_text_size) {
-            Float previousLyricsTextSize = viewModel.getLyricsTextSize().getValue();
+            Float fontSize = viewModel.getLyricsTextSize().getValue();
+            float previousLyricsTextSize = fontSize != null ? fontSize : DEFAULT_LYRICS_TEXT_SIZE;
 
             View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_text_size_selection, null);
             Slider textSizeSlider = dialogView.findViewById(R.id.text_size_slider);
@@ -125,9 +126,7 @@ public class SongFragment extends Fragment {
         viewModel.getSelectedSong().observe(getViewLifecycleOwner(), song -> {
             currentSong = song;
 
-            if (currentSong.isImported()) {
-                setHasOptionsMenu(true);
-            }
+            setHasOptionsMenu(true);
 
             titleTv.setText(currentSong.getTitle());
             artistTv.setText(currentSong.getArtist());

@@ -11,7 +11,6 @@ public class Song {
     private final String title;
     private final String artist;
     private final String lyrics;
-    private boolean imported = false;
     private String filePath = null;
     private final List<LyricsMarking> markings;
 
@@ -26,7 +25,6 @@ public class Song {
         this.title = song.title;
         this.artist = song.artist;
         this.lyrics = song.lyrics;
-        this.imported = song.imported;
         this.filePath = song.filePath;
         this.markings = new ArrayList<>(song.markings);
     }
@@ -43,16 +41,8 @@ public class Song {
         return lyrics;
     }
 
-    public boolean isImported() {
-        return imported;
-    }
-
     public String getFilePath() {
         return filePath;
-    }
-
-    public void setImported(boolean imported) {
-        this.imported = imported;
     }
 
     public void setFilePath(String filePath) {
