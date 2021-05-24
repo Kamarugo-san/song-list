@@ -40,7 +40,7 @@ public class DefaultSongsLoader {
 
                 Song song = SongBackup.readSongFile(fileInputStream, gson);
                 if (song != null) {
-                    list.add(song);
+                    list.add(new Song(song.getTitle(), song.getArtist(), song.getLyrics()));
                 }
             }
         } catch (IOException exception) {

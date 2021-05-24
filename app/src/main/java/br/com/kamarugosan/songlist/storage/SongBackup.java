@@ -154,7 +154,7 @@ public class SongBackup {
      * Updates the given song's file with the given values.
      *
      * @param activity the {@link Activity} to get the files directory from
-     * @param song     the song to save. Must be imported and have a file path
+     * @param song     the song to save. Must have a file path
      * @return true if the song was successfully saved, false otherwise
      */
     public static boolean update(@NonNull Activity activity, @NonNull Song song) {
@@ -219,12 +219,12 @@ public class SongBackup {
      * @param data     the {@link Uri} that points to a zip file
      * @return true if the files were copied, false otherwise
      */
-    public static boolean copyFromZip(@NonNull Activity activity, Uri data) {
+    public static ZipCopyAttempt copyFromZip(@NonNull Activity activity, Uri data) {
         File importedDir = getImportedDir(activity);
 
         if (!importedDir.exists()) {
             if (!importedDir.mkdir()) {
-                return false;
+                return new ZipCopyAttempt(0, 0, new ArrayList<>());
             }
         }
 
@@ -232,6 +232,11 @@ public class SongBackup {
             byte[] buffer = new byte[2048];
 
             ZipEntry entry;
+            int validEntryCount = 0;
+            int failures = 0;
+            List<Song> copiedSongs = new ArrayList<>();
+            List<String> filePaths = new ArrayList<>();
+            Gson gson = new Gson();
 
             while ((entry = zipStream.getNextEntry()) != null) {
                 File unzippedDest = new File(importedDir, entry.getName());
@@ -243,11 +248,15 @@ public class SongBackup {
                     continue;
                 }
 
+                validEntryCount++;
+
                 int attempt = 1;
                 while (unzippedDest.exists()) {
                     unzippedDest = new File(importedDir, name.substring(0, name.length() - 7) + "(" + attempt + ")" + "." + SongBackup.CUSTOM_FILE_EXTENSION);
                     attempt++;
                 }
+
+                filePaths.add(unzippedDest.getAbsolutePath());
 
                 try (FileOutputStream fos = new FileOutputStream(unzippedDest); BufferedOutputStream bos = new BufferedOutputStream(fos, buffer.length)) {
                     int len;
@@ -257,12 +266,30 @@ public class SongBackup {
                 }
             }
 
-            return true;
+            for (String filePath : filePaths) {
+                InputStream fileInputStream = new FileInputStream(new File(filePath));
+                Song copiedSong = readSongFile(fileInputStream, gson);
+
+                if (copiedSong != null) {
+                    // Forcing the song to create a hash
+                    Song song = new Song(copiedSong.getTitle(), copiedSong.getArtist(), copiedSong.getLyrics());
+                    song.setFilePath(filePath);
+
+                    update(activity, song);
+
+                    copiedSongs.add(song);
+                } else {
+                    failures++;
+                    copiedSongs.add(null);
+                }
+            }
+
+            return new ZipCopyAttempt(validEntryCount, failures, copiedSongs);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return false;
+        return new ZipCopyAttempt(0, 0, new ArrayList<>());
     }
 
     @NonNull

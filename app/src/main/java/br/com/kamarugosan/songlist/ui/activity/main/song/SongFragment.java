@@ -25,6 +25,10 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.slider.Slider;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import br.com.kamarugosan.songlist.R;
 import br.com.kamarugosan.songlist.model.LyricsMarking;
 import br.com.kamarugosan.songlist.model.LyricsMarkingColor;

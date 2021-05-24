@@ -20,6 +20,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.List;
+
 import br.com.kamarugosan.songlist.R;
 import br.com.kamarugosan.songlist.model.Song;
 import br.com.kamarugosan.songlist.model.SongViewModel;
@@ -109,14 +111,14 @@ public class EditSongFragment extends Fragment {
         if (isValid) {
             new AlertDialog.Builder(requireContext())
                     .setMessage(R.string.add_song_save_confirmation)
-                    .setPositiveButton(R.string.all_save, (dialog, which) -> save(song))
+                    .setPositiveButton(R.string.all_save, (dialog, which) -> save(song, false))
                     .setNegativeButton(R.string.all_cancel, null)
                     .create()
                     .show();
         }
     }
 
-    private void save(Song song) {
+    private void save(Song song, boolean ignoreDuplicate) {
         AlertDialog savingDialog = new AlertDialog.Builder(requireContext())
                 .setMessage(R.string.add_song_saving)
                 .setCancelable(false)
@@ -127,15 +129,63 @@ public class EditSongFragment extends Fragment {
             if (songToEdit != null) {
                 song.setFilePath(songToEdit.getFilePath());
 
+                if (!ignoreDuplicate && isDuplicated(song)) {
+                    requireActivity().runOnUiThread(() -> {
+                        savingDialog.hide();
+                        showDuplicateDialog(song);
+                    });
+
+                    return;
+                }
+
                 boolean saved = SongBackup.update(requireActivity(), song);
 
                 requireActivity().runOnUiThread(() -> finishFragment(song, savingDialog, saved));
             } else {
+                if (!ignoreDuplicate && isDuplicated(song)) {
+                    requireActivity().runOnUiThread(() -> {
+                        savingDialog.hide();
+                        showDuplicateDialog(song);
+                    });
+
+                    return;
+                }
+
                 boolean saved = SongBackup.save(requireActivity(), song);
 
                 requireActivity().runOnUiThread(() -> finishFragment(song, savingDialog, saved));
             }
         }).start();
+    }
+
+    private void showDuplicateDialog(Song song) {
+        new AlertDialog.Builder(requireContext())
+                .setMessage(R.string.song_is_duplicated_message)
+                .setPositiveButton(R.string.all_save, (dialog, which) -> save(song, true))
+                .setNegativeButton(R.string.all_cancel, null)
+                .setCancelable(false)
+                .create()
+                .show();
+    }
+
+    private boolean isDuplicated(Song song) {
+        List<Song> songList = viewModel.getSongList().getValue();
+        if (songList == null) {
+            return false;
+        }
+
+        for (Song savedSong : songList) {
+            if (savedSong.hasSameHash(song)) {
+                if (song.getFilePath() != null && savedSong.getFilePath().equals(song.getFilePath())) {
+                    // It's the same song being saved without changes
+                    continue;
+                }
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void finishFragment(Song song, @NonNull AlertDialog savingDialog, boolean saved) {

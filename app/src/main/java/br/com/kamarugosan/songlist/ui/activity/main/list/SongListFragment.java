@@ -242,7 +242,7 @@ public class SongListFragment extends Fragment {
 
         new AlertDialog.Builder(requireContext())
                 .setMessage(getResources().getQuantityString(R.plurals.list_selection_action_mode_delete_confirmation, selectedItemsAmount, selectedItemsAmount))
-                .setPositiveButton(R.string.list_selection_action_mode_delete, (dialog, which) -> deleteSelectedSongs())
+                .setPositiveButton(R.string.all_delete, (dialog, which) -> deleteSelectedSongs())
                 .setNegativeButton(R.string.all_cancel, null)
                 .create()
                 .show();

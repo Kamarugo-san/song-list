@@ -7,12 +7,13 @@
     <string name="all_save">Salvar</string>
     <string name="all_cancel">Cancelar</string>
     <string name="all_share">Compartilhar</string>
+    <string name="all_delete">Excluir</string>
+    <string name="all_keep">Manter</string>
 
     <!--  Song List -->
     <string name="list_go_to_song">Ver música</string>
     <string name="list_search">Buscar</string>
     <string name="list_search_query_hint">Título, artista, letra…</string>
-    <string name="list_selection_action_mode_delete">Excluir</string>
     <string name="list_selection_action_mode_share_preparing">Preparando…</string>
     <string name="list_selection_action_mode_share_failure">Falha ao compartilhar músicas.</string>
     <string name="list_selection_action_mode_select_all">Selecionar todas</string>
@@ -45,8 +46,26 @@
     <!--  Imported songs  -->
     <string name="import_no_data_received">Nenhum arquivo selecionado</string>
     <string name="import_importing">Importando músicas…</string>
-    <string name="import_success_message">Músicas importadas com sucesso</string>
-    <string name="import_failed_message">Falha ao importar as músicas</string>
+    <string name="import_successful_message">Músicas importadas com sucesso</string>
+    <string name="import_partial_failure_message">Músicas importadas. %1$d falhas</string>
+    <string name="import_failure_message">Falha ao importar as músicas</string>
+    <plurals name="import_partial_failure_message">
+        <item quantity="one">Músicas importadas. %1$d falha</item>
+        <item quantity="other">Músicas importadas. %1$d falhas</item>
+    </plurals>
+    <plurals name="import_duplicated_songs_message">
+        <item quantity="one">Foi encontrada uma música duplicada. Deseja mantê-las?</item>
+        <item quantity="other">Foram encontradas músicas duplicadas. Deseja mantê-las?</item>
+    </plurals>
+    <plurals name="import_duplicated_songs_kept">
+        <item quantity="one">Música duplicada mantida</item>
+        <item quantity="other">Músicas duplicadas mantidas</item>
+    </plurals>
+    <plurals name="import_duplicated_songs_deleted">
+        <item quantity="one">Música duplicada excluída</item>
+        <item quantity="other">Músicas duplicadas excluídas</item>
+    </plurals>
+    <string name="import_duplicated_songs_delete_failure">Falha ao excluir músicas duplicadas.</string>
 
     <!--  Edit song  -->
     <string name="add_song">Adicionar música</string>
@@ -58,5 +77,6 @@
     <string name="add_song_failed_to_save">Falha ao salvar</string>
     <string name="edit_song">Editar</string>
     <string name="edit_song_title">Editar música</string>
+    <string name="song_is_duplicated_message">Essa música já foi encontrada no seu dispositivo. Deseja salvar mesmo assim?</string>
 
 </resources>

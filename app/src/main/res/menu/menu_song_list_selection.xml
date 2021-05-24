@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/select_song_delete"
-        android:title="@string/list_selection_action_mode_delete"
+        android:title="@string/all_delete"
         android:icon="@drawable/ic_delete"
         app:showAsAction="ifRoom" />
 

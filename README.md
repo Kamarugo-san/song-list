@@ -14,6 +14,7 @@ This project aims to create an expansive song list so the user can store and rea
   * [x]  Allow the user to filter through the list
   * [x]  Allow the user to edit an added or imported song
   * [x]  Allow the user to mark a text in the lyrics
+  * [x]  Check for duplicated songs using MD5 hashes based on their content and let user choose between keeping or deleting them
 
 ## Implementation
 [Jetpack Navigation Component](https://developer.android.com/guide/navigation) is being used alongside [ViewModel](https://developer.android.com/reference/androidx/lifecycle/ViewModel) and [LiveData](https://developer.android.com/reference/androidx/lifecycle/LiveData).
