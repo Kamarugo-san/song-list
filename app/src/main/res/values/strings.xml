@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Pasta de Músicas</string>
+    <string name="dev_name">Matheus Camargo</string>
+    <string name="dev_credits">%1$s | %2$s (%3$d) %4$s</string>
 
     <string name="all_song_sharing_text">Músicas do Pasta de Músicas</string>
     <string name="all_song">Música</string>

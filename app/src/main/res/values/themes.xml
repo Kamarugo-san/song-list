@@ -8,20 +8,17 @@
 
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorOnPrimarySurface">@color/colorOnPrimary</item>
-        <item name="colorOnSurface">@color/colorOnPrimary</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
 
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
 
         <!-- Status bar -->
-        <item name="android:windowLightStatusBar">true</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/colorPrimaryDark</item>
 
         <item name="backgroundColor">@android:color/background_light</item>
         <item name="colorOnBackground">@color/colorOnBackground</item>
-
-        <item name="searchViewStyle">@style/Theme.SongList.SearchView</item>
     </style>
 
     <style name="Theme.SongList.Splash">

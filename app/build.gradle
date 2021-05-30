@@ -9,7 +9,7 @@ def debugSuffix = "-debug"
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "br.com.kamarugosan.songlist"
@@ -38,6 +38,7 @@ android {
             dimension "default"
 
             versionNameSuffix "-novosom"
+            resValue "string", "version_name", "$vName-novosom"
         }
     }
 
@@ -48,8 +49,8 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation "androidx.fragment:fragment:1.3.3"
+    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation "androidx.fragment:fragment:1.3.4"
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
 

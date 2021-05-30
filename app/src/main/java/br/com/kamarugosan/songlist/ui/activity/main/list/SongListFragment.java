@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -28,6 +29,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.kamarugosan.songlist.BuildConfig;
 import br.com.kamarugosan.songlist.R;
 import br.com.kamarugosan.songlist.model.Song;
 import br.com.kamarugosan.songlist.model.SongViewModel;
@@ -122,6 +124,9 @@ public class SongListFragment extends Fragment {
 
         viewModel.selectSong(null);
         viewModel.getSongFilter().observe(getViewLifecycleOwner(), s -> adapter.filter(s));
+
+        TextView creditsTv = view.findViewById(R.id.song_list_credits);
+        creditsTv.setText(getString(R.string.dev_credits, getString(R.string.dev_name), getString(R.string.app_name), BuildConfig.VERSION_CODE, getString(R.string.version_name)));
     }
 
     private void setupList() {

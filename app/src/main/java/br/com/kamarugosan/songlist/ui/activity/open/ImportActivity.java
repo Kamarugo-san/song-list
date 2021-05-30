@@ -107,6 +107,7 @@ public class ImportActivity extends AppCompatActivity {
                         break;
                 }
 
+                sendBroadcast(MainBroadcastReceiver.getLoadListIntent());
                 Toast.makeText(this, toastText, Toast.LENGTH_LONG).show();
 
                 finish();

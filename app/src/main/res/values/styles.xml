@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.SongList.Toolbar" parent="Widget.AppCompat.ActionBar">
-        <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
-        <item name="iconTint">?attr/colorOnPrimary</item>
+    <style name="Theme.SongList.Toolbar" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="popupTheme">@style/Theme.SongList.PopupOverlay.Menu</item>
     </style>
 
-    <style name="Theme.SongList.SearchView" parent="Widget.AppCompat.SearchView">
-        <item name="queryBackground">?attr/backgroundColor</item>
+    <style name="Theme.SongList.PopupOverlay.Menu" parent="ThemeOverlay.AppCompat.Light" >
+        <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 
     <style name="TextAppearance" />
 
     <style name="TextAppearance.Regular">
-        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 
     <style name="TextAppearance.Regular.SubTitle">
