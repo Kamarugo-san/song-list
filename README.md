@@ -23,7 +23,7 @@ This project aims to create an expansive song list so the user can store and rea
 [Matheus Camargo Gomes da Silva](https://github.com/Kamarugo-san)
 
 ## Note
-This project is a college assignment and has Brazilian Portuguese as its default UI language.
+This project is a university assignment for [Universidade São Francisco](https://www.usf.edu.br/) and has Brazilian Portuguese as its default UI language.
 
 ## License
 ```
